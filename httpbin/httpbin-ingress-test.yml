@@ -1,60 +1,60 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: http-bin
+  name: httpbin
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels
-    app: http-bin
-    service: http-bin
-  name: http-bin
+  labels:
+    app: httpbin
+    service: httpbin
+  name: httpbin
 spec:
   ports:
   - name: http
     port: 80
     targetPort: 80
   selector:
-    app: http-bin
+    app: httpbin
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: http-bin
+  name: httpbin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: http-bin
+      app: httpbin
       version: v1
   template:
     metadata:
       labels:
-        app: http-bin
+        app: httpbin
         version: v1
     spec:
       containers:
-      - image: docker.io/kennethreitz/http-bin
+      - image: docker.io/kennethreitz/httpbin
         imagePullPolicy: IfNotPresent
-        name: http-bin
+        name: httpbin
         ports:
         - containerPort: 80
-      serviceAccountName: http-bin
+      serviceAccountName: httpbin
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: http-bin
+  name: httpbin
 spec:
   ingressClassName: nginx
   rules:
-  - host: http-bin-test.com
+  - host: httpbin-test.com
     http:
       paths:
       - backend:
           service:
-            name: http-bin
+            name: httpbin
             port:
               number: 80
         path: /
