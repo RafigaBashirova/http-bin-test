@@ -6,7 +6,7 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
+  labels
     app: http-bin
     service: http-bin
   name: http-bin
@@ -35,12 +35,12 @@ spec:
         version: v1
     spec:
       containers:
-      - image: docker.io/kennethreitz/httpbin
+      - image: docker.io/kennethreitz/http-bin
         imagePullPolicy: IfNotPresent
-        name: httpbin
+        name: http-bin
         ports:
         - containerPort: 80
-      serviceAccountName: httpbin
+      serviceAccountName: http-bin
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -56,6 +56,6 @@ spec:
           service:
             name: http-bin
             port:
-              number: 8000
+              number: 80
         path: /
         pathType: Prefix
